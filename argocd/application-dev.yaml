@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-api-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # Zmień na adres swojego repo konfiguracji
+    repoURL: https://github.com/r00ti/demo-api-config.git
+    targetRevision: main
+    path: overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true       # usuń z klastra to, czego nie ma już w Git
+      selfHeal: true    # cofnij ręczne zmiany w klastrze (drift)
+    syncOptions:
+      - CreateNamespace=true

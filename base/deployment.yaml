@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-api
+  labels:
+    app: demo-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: demo-api
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: demo-api
+          image: demo-api:1.0
+          imagePullPolicy: IfNotPresent   # obraz ładujemy do kind ręcznie
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_VERSION
+              value: "1.0"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
