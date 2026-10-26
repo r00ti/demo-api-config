@@ -5,7 +5,6 @@ resources:
   - ../../base
 images:
   - name: ghcr.io/r00ti/demo-api
-    # Zmiana tagu = commit = wdrożenie.
     newTag: sha-716986f9e0b7d75406066e42d69705e7ca54c8f6
 patches:
   - target:
