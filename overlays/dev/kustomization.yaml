@@ -5,7 +5,7 @@ resources:
   - ../../base
 images:
   - name: ghcr.io/r00ti/demo-api
-    newTag: sha-716986f9e0b7d75406066e42d69705e7ca54c8f6
+    newTag: sha-5433e4abbbc3a4290f5405602ffae64dde1f5efd
 patches:
   - target:
       kind: Deployment
